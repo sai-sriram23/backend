@@ -18,7 +18,7 @@ WORKDIR /app
 
 COPY --from=build /app/target/cabsystemsms-0.0.1-SNAPSHOT.jar app.jar
 
-# Render injects PORT at runtime; default to 8085 for local Docker runs
-EXPOSE 8085
+# Render injects PORT dynamically at runtime
+EXPOSE 8080
 
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["sh", "-c", "java -jar app.jar --server.port=${PORT:-8085}"]
