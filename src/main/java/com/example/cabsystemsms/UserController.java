@@ -38,8 +38,26 @@ public class UserController {
             return ResponseEntity.status(HttpStatus.CONFLICT)
                     .body(Map.of("message", "Email already exists"));
         }
+        if (user.getRole() == null || user.getRole().trim().isEmpty()) {
+            user.setRole("USER");
+        }
         this.userRepo.save(user);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(Map.of("message", "User registered successfully"));
+    }
+
+    @PostMapping("/login")
+    public ResponseEntity<?> login(@Valid @RequestBody LoginRequest loginRequest) {
+        Users user = this.userRepo.findByEmail(loginRequest.getEmail());
+        if (user != null && user.getPassword().equals(loginRequest.getPassword())) {
+            return ResponseEntity.ok(Map.of(
+                    "message", "Login successful",
+                    "username", user.getUsername(),
+                    "email", user.getEmail(),
+                    "role", user.getRole()));
+        } else {
+            return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
+                    .body(Map.of("message", "Invalid email or password"));
+        }
     }
 }
