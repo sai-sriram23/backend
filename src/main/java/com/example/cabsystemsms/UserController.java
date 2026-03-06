@@ -73,4 +73,13 @@ public class UserController {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST)
                 .body(Map.of("message", errors.toString().trim()));
     }
+
+    @ExceptionHandler(Exception.class)
+    public ResponseEntity<Map<String, String>> handleAllExceptions(Exception ex) {
+        ex.printStackTrace(); // Log to Render console
+        return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR)
+                .body(Map.of(
+                        "message", "Internal server error occurred.",
+                        "error", ex.getMessage() != null ? ex.getMessage() : ex.toString()));
+    }
 }
