@@ -31,8 +31,8 @@ public class Users {
     @Column(nullable = false)
     private String password;
 
-    @Column(nullable = false, length = 20)
-    private String role = "USER";
+    @Column(nullable = false, length = 50)
+    private String role = "student";
 
     // Getters and Setters
     public Long getId() {

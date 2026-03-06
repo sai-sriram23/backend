@@ -39,7 +39,7 @@ public class UserController {
                     .body(Map.of("message", "Email already exists"));
         }
         if (user.getRole() == null || user.getRole().trim().isEmpty()) {
-            user.setRole("USER");
+            user.setRole("student");
         }
         this.userRepo.save(user);
         return ResponseEntity.status(HttpStatus.CREATED)
